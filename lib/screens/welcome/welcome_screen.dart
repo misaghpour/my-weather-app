@@ -28,7 +28,7 @@ class WelcomeScreen extends StatelessWidget {
               ],
             ),
             Text(
-              'To do app',
+              'My Weather App',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(
