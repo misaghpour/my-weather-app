@@ -7,7 +7,6 @@ class APIController extends GetxController {
   final _connect = GetConnect();
 
   Future<WeatherModel> fetchCurrentCity({required String city}) async {
-    // final api_key = '52a28657ca36b07c3a80b5f8901981ff';
     await dotenv.load();
     final api_key = dotenv.env['API_KEY'];
     final url =
@@ -19,7 +18,6 @@ class APIController extends GetxController {
   }
 
   Future<ForecastModel> fetchForecast({required String city}) async {
-    // final api_key = '52a28657ca36b07c3a80b5f8901981ff';
     await dotenv.load();
     final api_key = dotenv.env['API_KEY'];
     final url =
