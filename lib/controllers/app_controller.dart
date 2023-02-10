@@ -1,11 +1,14 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:my_weather_app/controllers/api_controller.dart';
+import 'package:my_weather_app/data/models/forecast_model.dart';
 import 'package:my_weather_app/data/models/weather_mode.dart';
 
 class AppController extends GetxController {
   RxString city = "Kashan".obs;
-  Rx<WeatherModel> model = WeatherModel.init().obs;
+  Rx<WeatherModel> currentWeatherModel = WeatherModel.init().obs;
+  Rx<ForecastModel> forecastWeatherModel = ForecastModel.init().obs;
+
   RxBool isLoading = true.obs;
   RxString errorMsg = "".obs;
 
@@ -17,23 +20,38 @@ class AppController extends GetxController {
     super.onInit();
     textController.text = city.value;
 
-    await _fetchData();
+    await _fetchCurrentData();
+    await _fetchForecastData();
   }
 
-  _fetchData() async {
+  _fetchCurrentData() async {
     errorMsg.value = "";
     isLoading.value = true;
-    model.value = await apiController.fetchCurrentCity(city: city.value);
-    if (!model.value.isValid) errorMsg.value = "Your city name is Not valid :(";
+    currentWeatherModel.value =
+        await apiController.fetchCurrentCity(city: city.value);
+    if (!currentWeatherModel.value.isValid)
+      errorMsg.value = "Your city name is Not valid :(";
+    isLoading.value = false;
+  }
+
+  _fetchForecastData() async {
+    errorMsg.value = "";
+    isLoading.value = true;
+    forecastWeatherModel.value =
+        await apiController.fetchForecast(city: city.value);
+    if (!forecastWeatherModel.value.isValid)
+      errorMsg.value = "Your city number is Not valid";
     isLoading.value = false;
   }
 
   reload() {
-    _fetchData();
+    _fetchCurrentData();
+    _fetchForecastData();
   }
 
   changeCity() {
     this.city.value = textController.text;
-    _fetchData();
+    _fetchCurrentData();
+    _fetchForecastData();
   }
 }

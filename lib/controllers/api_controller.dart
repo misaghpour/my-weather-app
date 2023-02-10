@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:my_weather_app/data/models/forecast_model.dart';
 import 'package:my_weather_app/data/models/weather_mode.dart';
 
 class APIController extends GetxController {
@@ -12,5 +13,15 @@ class APIController extends GetxController {
 
     final weatherModel = WeatherModel.fromJson(response.body);
     return weatherModel;
+  }
+
+  Future<ForecastModel> fetchForecast({required String city}) async {
+    final api_key = '52a28657ca36b07c3a80b5f8901981ff';
+    final url =
+        'https://api.openweathermap.org/data/2.5/forecast?q=$city&appid=$api_key&units=metric';
+    final response = await _connect.get(url);
+
+    final forecastModel = ForecastModel.fromJson(response.body);
+    return forecastModel;
   }
 }
