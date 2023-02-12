@@ -12,4 +12,8 @@ class GeoModel {
       return GeoModel(lat: json['lat'], lon: json['lon'], isValid: true);
     }
   }
+
+  factory GeoModel.init() {
+    return GeoModel(lat: -1, lon: -1, isValid: false);
+  }
 }

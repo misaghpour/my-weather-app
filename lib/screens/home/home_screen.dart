@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      controller.changeCity();
+                      controller.reload();
                     },
                     child: Text('Get')),
                 controller.isLoading.value
