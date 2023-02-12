@@ -2,12 +2,14 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:my_weather_app/controllers/api_controller.dart';
 import 'package:my_weather_app/data/models/forecast_model.dart';
+import 'package:my_weather_app/data/models/pollution_model.dart';
 import 'package:my_weather_app/data/models/weather_mode.dart';
 
 class AppController extends GetxController {
   RxString city = "Kashan".obs;
   Rx<WeatherModel> currentWeatherModel = WeatherModel.init().obs;
   Rx<ForecastModel> forecastWeatherModel = ForecastModel.init().obs;
+  Rx<PollutionModel> pollutionModel = PollutionModel.init().obs;
 
   RxBool isLoading = true.obs;
   RxString errorMsg = "".obs;
@@ -20,12 +22,11 @@ class AppController extends GetxController {
     super.onInit();
     textController.text = city.value;
 
-    await _fetchCurrentData();
+    await _fetchCurrentWeather();
     await _fetchForecastData();
   }
 
-  _fetchCurrentData() async {
-    errorMsg.value = "";
+  _fetchCurrentWeather() async {
     isLoading.value = true;
     currentWeatherModel.value =
         await apiController.fetchCurrentCity(city: city.value);
@@ -35,7 +36,6 @@ class AppController extends GetxController {
   }
 
   _fetchForecastData() async {
-    errorMsg.value = "";
     isLoading.value = true;
     forecastWeatherModel.value =
         await apiController.fetchForecast(city: city.value);
@@ -44,14 +44,24 @@ class AppController extends GetxController {
     isLoading.value = false;
   }
 
+  _fetchPollutionData() async {
+    isLoading.value = true;
+    pollutionModel.value = await apiController.fetchPollution(city: city.value);
+    if (!pollutionModel.value.isValid)
+      errorMsg.value = 'Your city is not valid';
+    isLoading.value = false;
+  }
+
   reload() {
-    _fetchCurrentData();
+    _fetchCurrentWeather();
     _fetchForecastData();
   }
 
-  changeCity() {
+  changeCity() async {
+    errorMsg.value = "";
     this.city.value = textController.text;
-    _fetchCurrentData();
-    _fetchForecastData();
+    await _fetchCurrentWeather();
+    await _fetchForecastData();
+    await _fetchPollutionData();
   }
 }
