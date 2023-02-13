@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_weather_app/controllers/app_controller.dart';
 import 'package:my_weather_app/data/models/weather_mode.dart';
+import 'package:my_weather_app/screens/home/components/current_weather_detail.dart';
+import 'package:my_weather_app/widgets/forecast_item_widget.dart';
+
+import 'components/pollution_detail_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -22,14 +26,33 @@ class HomeScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                TextField(
-                  controller: controller.textController,
+                SizedBox(
+                  height: 16,
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      controller.reload();
-                    },
-                    child: Text('Get')),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: controller.textController,
+                        decoration: InputDecoration(
+                            hintText: 'Enter Your City',
+                            border: OutlineInputBorder(),
+                            labelText: 'City'),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          controller.reload();
+                        },
+                        child: Icon(
+                          Icons.check,
+                          size: 36,
+                        )),
+                  ],
+                ),
                 controller.isLoading.value
                     ? CircularProgressIndicator()
                     : controller.errorMsg.value.isNotEmpty
@@ -40,218 +63,41 @@ class HomeScreen extends StatelessWidget {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  Text(
-                                    controller.textController.text,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                  ),
                                   SizedBox(
-                                    height: 12,
+                                    height: 16,
                                   ),
-                                  Divider(),
-                                  Text('Date Time:'),
-                                  Text(controller
-                                      .currentWeatherModel.value.dateTimeStr),
-                                  Text(
-                                    'Current Status',
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-                                  Divider(),
                                   Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
                                     children: [
-                                      Expanded(
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              'Weather',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18),
-                                            ),
-                                            Text('Temprature: '),
-                                            Text(
-                                              controller.currentWeatherModel
-                                                  .value.temp
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            SizedBox(
-                                              height: 12,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Column(
-                                                  children: [
-                                                    Text('Min: '),
-                                                    Text(
-                                                      controller
-                                                          .currentWeatherModel
-                                                          .value
-                                                          .temp_min
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(
-                                                  width: 12,
-                                                ),
-                                                Column(
-                                                  children: [
-                                                    Text('Max: '),
-                                                    Text(
-                                                      controller
-                                                          .currentWeatherModel
-                                                          .value
-                                                          .temp_max
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              height: 12,
-                                            ),
-                                            Text('Pressure: '),
-                                            Text(
-                                              controller.currentWeatherModel
-                                                  .value.pressure
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            SizedBox(
-                                              height: 12,
-                                            ),
-                                            Text('Humidity: '),
-                                            Text(
-                                              controller.currentWeatherModel
-                                                  .value.humidity
-                                                  .toString(),
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                          ],
-                                        ),
+                                      Text(
+                                        controller.textController.text,
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              'Pollution',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 18),
-                                            ),
-                                            SizedBox(
-                                              height: 12,
-                                            ),
-                                            Text('CO: ' +
-                                                controller
-                                                    .pollutionModel.value.co
-                                                    .toString()),
-                                            Text('NO: ' +
-                                                controller
-                                                    .pollutionModel.value.no
-                                                    .toString()),
-                                            Text('NO2: ' +
-                                                controller
-                                                    .pollutionModel.value.no2
-                                                    .toString()),
-                                            Text('O3: ' +
-                                                controller
-                                                    .pollutionModel.value.o3
-                                                    .toString()),
-                                            Text('SO2: ' +
-                                                controller
-                                                    .pollutionModel.value.so2
-                                                    .toString()),
-                                            Text('PM2_5: ' +
-                                                controller
-                                                    .pollutionModel.value.pm2_5
-                                                    .toString()),
-                                            Text('PM10: ' +
-                                                controller
-                                                    .pollutionModel.value.pm10
-                                                    .toString()),
-                                            Text('NH3: ' +
-                                                controller
-                                                    .pollutionModel.value.nh3
-                                                    .toString()),
-                                          ],
-                                        ),
+                                      Spacer(),
+                                      Text(
+                                        controller.timeOfDayStr.value,
+                                        style: TextStyle(fontSize: 20),
                                       ),
                                     ],
                                   ),
                                   Divider(),
+                                  CurrentWeatherDetail(),
+                                  SizedBox(
+                                    height: 12,
+                                  ),
+                                  PollutionDetailWidget(),
+                                  SizedBox(height: 12,),
                                   Text(
                                     'Forecast 5 Days',
-                                    style: TextStyle(fontSize: 18),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   Divider(),
                                   for (WeatherModel model in controller
                                       .forecastWeatherModel.value.list)
-                                    Column(
-                                      children: [
-                                        Container(
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                child: Text(
-                                                  model.temp.toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                flex: 3,
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Text('Min: '),
-                                                        Text(model.temp_min
-                                                            .toString())
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Text('Max: '),
-                                                        Text(model.temp_max
-                                                            .toString())
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                              Text(model.dateTimeStr)
-                                            ],
-                                          ),
-                                        ),
-                                        Divider()
-                                      ],
-                                    )
+                                    ForecastItemWidget(model: model)
                                 ],
                               ),
                             ),

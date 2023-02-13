@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:my_weather_app/controllers/api_controller.dart';
 import 'package:my_weather_app/data/models/forecast_model.dart';
 import 'package:my_weather_app/data/models/pollution_model.dart';
@@ -10,6 +11,12 @@ class AppController extends GetxController {
   Rx<WeatherModel> currentWeatherModel = WeatherModel.init().obs;
   Rx<ForecastModel> forecastWeatherModel = ForecastModel.init().obs;
   Rx<PollutionModel> pollutionModel = PollutionModel.init().obs;
+
+  RxString get timeOfDayStr {
+    var dt = DateTime.fromMillisecondsSinceEpoch(this.currentWeatherModel.value.dateTimeLong * 1000);
+    var dtFormat = DateFormat("HH:mm").format(dt);
+    return dtFormat.obs;
+  }
 
   RxBool get isLoading => apiController.isLoading;
   RxString get errorMsg => apiController.errorMsg;
