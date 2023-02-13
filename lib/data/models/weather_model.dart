@@ -8,6 +8,7 @@ class WeatherModel {
   final humidity;
   final bool isValid;
   final dateTimeLong;
+  final String description;
 
   String get dateTimeStr {
     var dt = DateTime.fromMillisecondsSinceEpoch(this.dateTimeLong * 1000);
@@ -22,7 +23,8 @@ class WeatherModel {
       required this.temp_min,
       required this.pressure,
       required this.humidity,
-      required this.dateTimeLong});
+      required this.dateTimeLong,
+      required this.description});
 
   factory WeatherModel.fromJson(Map<String, dynamic> json) {
     final mainJson = json['main'];
@@ -34,8 +36,11 @@ class WeatherModel {
           temp_min: -1,
           pressure: -1,
           humidity: -1,
-          dateTimeLong: -1);
+          dateTimeLong: -1,
+          description: "");
     } else {
+      final weatherJson = json['weather'][0];
+
       return WeatherModel(
           isValid: true,
           temp: double.parse(mainJson['temp'].toString()),
@@ -43,7 +48,8 @@ class WeatherModel {
           temp_min: double.parse(mainJson['temp_min'].toString()),
           pressure: mainJson['pressure'] as int,
           humidity: mainJson['humidity'] as int,
-          dateTimeLong: json['dt'] as int);
+          dateTimeLong: json['dt'] as int,
+          description: weatherJson['main']);
     }
   }
 
@@ -55,6 +61,7 @@ class WeatherModel {
         temp_min: 0,
         pressure: 0,
         humidity: 0,
-        dateTimeLong: 0);
+        dateTimeLong: 0,
+        description: "");
   }
 }

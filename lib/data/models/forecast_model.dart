@@ -1,4 +1,4 @@
-import 'package:my_weather_app/data/models/weather_mode.dart';
+import 'package:my_weather_app/data/models/weather_model.dart';
 
 class ForecastModel {
   List<WeatherModel> list = [];

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_weather_app/data/models/weather_mode.dart';
+import 'package:my_weather_app/data/models/weather_model.dart';
 
 class ForecastItemWidget extends StatelessWidget {
   ForecastItemWidget({required this.model, super.key});

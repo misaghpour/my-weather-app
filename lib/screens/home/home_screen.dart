@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_weather_app/controllers/app_controller.dart';
-import 'package:my_weather_app/data/models/weather_mode.dart';
+import 'package:my_weather_app/data/models/weather_model.dart';
 import 'package:my_weather_app/screens/home/components/current_weather_detail.dart';
 import 'package:my_weather_app/widgets/forecast_item_widget.dart';
 
@@ -54,7 +54,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
                 controller.isLoading.value
-                    ? CircularProgressIndicator()
+                    ? Center(child: CircularProgressIndicator())
                     : controller.errorMsg.value.isNotEmpty
                         ? Container(
                             child: Text(controller.errorMsg.value),

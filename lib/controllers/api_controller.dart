@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:my_weather_app/data/models/forecast_model.dart';
 import 'package:my_weather_app/data/models/geo_model.dart';
 import 'package:my_weather_app/data/models/pollution_model.dart';
-import 'package:my_weather_app/data/models/weather_mode.dart';
+import 'package:my_weather_app/data/models/weather_model.dart';
 
 class APIController extends GetxController {
   final _connect = GetConnect();

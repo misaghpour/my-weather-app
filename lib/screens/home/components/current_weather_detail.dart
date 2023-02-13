@@ -17,8 +17,8 @@ class CurrentWeatherDetail extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Weather',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            controller.currentWeatherModel.value.description,
+            style: TextStyle(fontSize: 16),
           ),
           SizedBox(
             height: 12,

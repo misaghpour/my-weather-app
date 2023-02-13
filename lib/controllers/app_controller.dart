@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:my_weather_app/controllers/api_controller.dart';
 import 'package:my_weather_app/data/models/forecast_model.dart';
 import 'package:my_weather_app/data/models/pollution_model.dart';
-import 'package:my_weather_app/data/models/weather_mode.dart';
+import 'package:my_weather_app/data/models/weather_model.dart';
 
 class AppController extends GetxController {
   RxString city = "New York".obs;

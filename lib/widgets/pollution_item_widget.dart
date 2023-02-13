@@ -28,13 +28,20 @@ class PollutionItemWidget extends StatelessWidget {
             label,
             style: TextStyle(fontSize: 11),
           ),
-          // Spacer(),
-          Text(
-            value.toString(),
-            style: TextStyle(fontWeight: FontWeight.bold),
+          Spacer(),
+          Center(
+            child: Text(
+              value.toString(),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
           ),
-          // Spacer(),
-          Text(unit)
+          Spacer(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(unit, style: TextStyle(fontSize: 10),),
+            ],
+          )
         ],
       ),
     );
