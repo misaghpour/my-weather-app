@@ -3,17 +3,21 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:my_weather_app/controllers/api_controller.dart';
 import 'package:my_weather_app/data/models/forecast_model.dart';
+import 'package:my_weather_app/data/models/geo_model.dart';
 import 'package:my_weather_app/data/models/pollution_model.dart';
 import 'package:my_weather_app/data/models/weather_model.dart';
+import 'package:my_weather_app/routes/app_pages.dart';
 
 class AppController extends GetxController {
   RxString city = "New York".obs;
   Rx<WeatherModel> currentWeatherModel = WeatherModel.init().obs;
   Rx<ForecastModel> forecastWeatherModel = ForecastModel.init().obs;
   Rx<PollutionModel> pollutionModel = PollutionModel.init().obs;
+  List<GeoModel> cities = <GeoModel>[];
 
   RxString get timeOfDayStr {
-    var dt = DateTime.fromMillisecondsSinceEpoch(this.currentWeatherModel.value.dateTimeLong * 1000);
+    var dt = DateTime.fromMillisecondsSinceEpoch(
+        this.currentWeatherModel.value.dateTimeLong * 1000);
     var dtFormat = DateFormat("HH:mm").format(dt);
     return dtFormat.obs;
   }
@@ -39,6 +43,18 @@ class AppController extends GetxController {
         await apiController.fetchCurrentCity(city: city.value);
   }
 
+  goToMoreInfoScreen() {
+    // todo:
+  }
+
+  goToAirQualityScreen() {
+    Get.toNamed(Routes.AIR_QUALITY);
+  }
+
+  goToForecastScreen() {
+    Get.toNamed(Routes.FORECAST);
+  }
+
   _fetchForecastData() async {
     forecastWeatherModel.value =
         await apiController.fetchForecast(city: city.value);
@@ -53,5 +69,15 @@ class AppController extends GetxController {
     await _fetchCurrentWeather();
     await _fetchForecastData();
     await _fetchPollutionData();
+  }
+
+  setAsDefaultCity({required String city}) {
+    textController.text = city;
+    reload();
+  }
+
+  searchCity() async {
+    this.city.value = textController.text;
+    cities = await apiController.searchCities(city: city.value);
   }
 }

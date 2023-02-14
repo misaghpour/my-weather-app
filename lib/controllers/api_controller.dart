@@ -44,10 +44,12 @@ class APIController extends GetxController {
       final response = await _connect.get(url);
 
       final forecastModel = ForecastModel.fromJson(response.body);
-      if(!forecastModel.isValid) errorMsg.value = "Your city name is Not valid :(";
+      if (!forecastModel.isValid)
+        errorMsg.value = "Your city name is Not valid :(";
       return forecastModel;
     } catch (e) {
       errorMsg.value = "An Error has occured";
+      errorMsg.value = "An Error has occured " + e.toString();
       return ForecastModel.init();
     } finally {
       isLoading.value = false;
@@ -65,11 +67,38 @@ class APIController extends GetxController {
       final response = await _connect.get(url);
 
       final geoModel = GeoModel.fromJson(response.body[0]);
-      if(!geoModel.isValid) errorMsg.value = "Your city name is Not valid :(";
+      if (!geoModel.isValid) errorMsg.value = "Your city name is Not valid :(";
       return geoModel;
     } catch (e) {
       errorMsg.value = "An Error has occured";
+      errorMsg.value = "An Error has occured " + e.toString();
       return GeoModel.init();
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<List<GeoModel>> searchCities({required String city}) async {
+    try {
+      isLoading.value = true;
+      errorMsg.value = "";
+      await dotenv.load();
+      final api_key = dotenv.env['API_KEY'];
+      final url =
+          'http://api.openweathermap.org/geo/1.0/direct?q=$city&limit=5&appid=$api_key';
+      final response = await _connect.get(url);
+
+      // final geoModel = GeoModel.fromJson(response.body[0]);
+      // if (!geoModel.isValid) errorMsg.value = "Your city name is Not valid :(";
+      final List<GeoModel> list = List<GeoModel>.from(
+          response.body.map((data) => GeoModel.fromJson(data)).toList());
+          if(list.isEmpty) errorMsg.value = "Your city name is Not valid :(";
+      return list;
+    } catch (e) {
+      errorMsg.value = "An Error has occured " + e.toString();
+
+      final List<GeoModel> list = [];
+      return list;
     } finally {
       isLoading.value = false;
     }
@@ -91,10 +120,13 @@ class APIController extends GetxController {
       final response = await _connect.get(url);
 
       final pollutionModel = PollutionModel.fromJson(response.body);
-      if(!pollutionModel.isValid) errorMsg.value = "Your city name is Not valid :(";
+      if (!pollutionModel.isValid)
+        errorMsg.value = "Your city name is Not valid :(";
+        
       return pollutionModel;
     } catch (e) {
       errorMsg.value = "An Error has occured";
+      errorMsg.value = "An Error has occured " + e.toString();
       return PollutionModel.init();
     } finally {
       isLoading.value = false;

@@ -19,20 +19,20 @@ class PollutionItemWidget extends StatelessWidget {
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(12))),
-      width: Get.size.width / 6,
-      height: Get.size.width / 6,
+      width: Get.size.width / 4,
+      height: Get.size.width / 4,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             label,
-            style: TextStyle(fontSize: 11),
+            style: TextStyle(fontSize: 14),
           ),
           Spacer(),
           Center(
             child: Text(
               value.toString(),
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),
           Spacer(),

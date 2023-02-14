@@ -46,8 +46,8 @@ class WeatherModel {
           temp: double.parse(mainJson['temp'].toString()),
           temp_max: double.parse(mainJson['temp_max'].toString()),
           temp_min: double.parse(mainJson['temp_min'].toString()),
-          pressure: mainJson['pressure'] as int,
-          humidity: mainJson['humidity'] as int,
+          pressure: mainJson['pressure'],
+          humidity: mainJson['humidity'],
           dateTimeLong: json['dt'] as int,
           description: weatherJson['main']);
     }

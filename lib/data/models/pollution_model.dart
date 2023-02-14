@@ -37,14 +37,14 @@ class PollutionModel {
       final listJson = json['list'];
       final cJson = listJson[0]['components']; // c: Components
       return PollutionModel(
-          co: cJson['co'],
-          no: cJson['no'],
-          no2: cJson['no2'],
-          o3: cJson['o3'],
-          so2: cJson['so2'],
-          pm2_5: cJson['pm2_5'],
-          pm10: cJson['pm10'],
-          nh3: cJson['nh3'],
+          co: double.parse(cJson['co'].toString()),
+          no: double.parse(cJson['no'].toString()),
+          no2: double.parse(cJson['no2'].toString()),
+          o3: double.parse(cJson['o3'].toString()),
+          so2: double.parse(cJson['so2'].toString()),
+          pm2_5: double.parse(cJson['pm2_5'].toString()),
+          pm10: double.parse(cJson['pm10'].toString()),
+          nh3: double.parse(cJson['nh3'].toString()),
           isValid: true);
     }
   }

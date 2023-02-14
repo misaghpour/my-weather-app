@@ -46,22 +46,20 @@ class PollutionDetailWidget extends StatelessWidget {
                 value: controller.pollutionModel.value.no2,
                 unit: "ml/G",
               ),
-              PollutionItemWidget(
-                label: "O3",
-                value: controller.pollutionModel.value.o3,
-                unit: "ml/G",
-              )
+              
             ],
           ),
           SizedBox(
-            height: 6,
-          ),
-          SizedBox(
-            height: 6,
+            height: 12,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              PollutionItemWidget(
+                label: "O3",
+                value: controller.pollutionModel.value.o3,
+                unit: "ml/G",
+              ),
               PollutionItemWidget(
                 label: "SO2",
                 value: controller.pollutionModel.value.so2,
@@ -72,6 +70,14 @@ class PollutionDetailWidget extends StatelessWidget {
                 value: controller.pollutionModel.value.nh3,
                 unit: "ml/G",
               ),
+            ],
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
               PollutionItemWidget(
                 label: "PM2_5",
                 value: controller.pollutionModel.value.pm2_5,
