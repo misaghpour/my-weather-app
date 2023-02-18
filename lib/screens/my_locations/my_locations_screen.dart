@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:my_weather_app/controllers/app_controller.dart';
 import 'package:my_weather_app/data/models/geo_model.dart';
@@ -13,6 +14,8 @@ class MyLocationsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('My Locations'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
         centerTitle: true,
       ),
       body: SafeArea(
@@ -26,30 +29,31 @@ class MyLocationsScreen extends StatelessWidget {
                   Expanded(
                     child: TextField(
                       controller: controller.textController,
+                      onChanged: (value) {
+                        controller.searchCity();
+                      },
+                      style: TextStyle(fontSize: 18),
                       decoration: InputDecoration(
-                          hintText: 'Enter Your City',
-                          border: OutlineInputBorder(),
-                          labelText: 'City'),
+                        hintText: 'Enter Your City',
+                        contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                        border: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
+                        labelText: 'City',
+                      ),
                     ),
                   ),
                   SizedBox(
                     width: 8,
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        controller.searchCity();
-                      },
-                      child: Icon(
-                        Icons.check,
-                        size: 36,
-                      )),
                 ],
               ),
               controller.isLoading.value
-                  ? Center(child: CircularProgressIndicator())
+                  ? Expanded(child: Center(child: SpinKitDancingSquare(color: Colors.blue,)))
                   : controller.errorMsg.value.isNotEmpty
                       ? Container(
-                          child: Text(controller.errorMsg.value),
+                        padding: EdgeInsets.all(16),
+                          child: Text(controller.errorMsg.value, style: TextStyle(fontSize: 16, color: Colors.red),),
                         )
                       : SingleChildScrollView(
                           child: Column(

@@ -15,6 +15,8 @@ class ForecastScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('5-Day Forecast'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
         centerTitle: true,
       ),
       body: SafeArea(

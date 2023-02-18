@@ -7,6 +7,7 @@ import 'package:my_weather_app/data/models/geo_model.dart';
 import 'package:my_weather_app/data/models/pollution_model.dart';
 import 'package:my_weather_app/data/models/weather_model.dart';
 import 'package:my_weather_app/routes/app_pages.dart';
+import 'package:my_weather_app/utils/debouncer.dart';
 
 class AppController extends GetxController {
   RxString city = "Kashan".obs;
@@ -14,6 +15,8 @@ class AppController extends GetxController {
   Rx<ForecastModel> forecastWeatherModel = ForecastModel.init().obs;
   Rx<PollutionModel> pollutionModel = PollutionModel.init().obs;
   List<GeoModel> cities = <GeoModel>[];
+
+  final _debouncer = Debouncer(milliseconds: 500);
 
   RxString get timeOfDayStr {
     var dt = DateTime.fromMillisecondsSinceEpoch(
@@ -77,7 +80,11 @@ class AppController extends GetxController {
   }
 
   searchCity() async {
-    this.city.value = textController.text;
-    cities = await apiController.searchCities(city: city.value);
+    _debouncer.run(() async {
+      if (textController.text.isNotEmpty) {
+        this.city.value = textController.text;
+        cities = await apiController.searchCities(city: city.value);
+      }
+    });
   }
 }

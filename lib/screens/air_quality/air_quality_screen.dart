@@ -14,6 +14,8 @@ class AirQualityScrren extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Air Quality'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
         centerTitle: true,
       ),
       body: SafeArea(

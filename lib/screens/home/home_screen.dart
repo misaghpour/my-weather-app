@@ -62,31 +62,9 @@ class HomeScreen extends StatelessWidget {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  controller.goToMoreInfoScreen();
-                                },
-                                child: Container(
-                                  width: Get.width / 3,
-                                  padding: EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 2, color: Colors.grey),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(30))),
-                                  child: Center(
-                                      child: Text(
-                                    'More',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  )),
-                                ),
-                              ),
-                              SizedBox(
-                                width: Get.width / 13,
-                              ),
-                              InkWell(
-                                onTap: () {
                                   controller.goToAirQualityScreen();
                                 },
+                                borderRadius: BorderRadius.circular(30),
                                 child: Container(
                                   width: Get.width / 3,
                                   padding: EdgeInsets.all(12),
@@ -110,6 +88,7 @@ class HomeScreen extends StatelessWidget {
                             onTap: () {
                               controller.goToForecastScreen();
                             },
+                            borderRadius: BorderRadius.circular(30),
                             child: Container(
                               padding: EdgeInsets.all(12),
                               width: double.infinity,
