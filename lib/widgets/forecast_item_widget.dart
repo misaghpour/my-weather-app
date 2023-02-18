@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_weather_app/data/constants.dart';
 import 'package:my_weather_app/data/models/weather_model.dart';
 
 class ForecastItemWidget extends StatelessWidget {
@@ -13,10 +15,32 @@ class ForecastItemWidget extends StatelessWidget {
         Container(
           child: Row(
             children: [
+              SvgPicture.asset(
+                model.iconPath,
+                width: 32,
+              ),
+              SizedBox(
+                width: 6,
+              ),
               Expanded(
-                child: Text(
-                  model.temp.toString() + ' °C',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                flex: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          model.temp.toString(),
+                          style:
+                              TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        Text(' °C')
+                      ],
+                    ),
+                    Text(model.description)
+                  ],
                 ),
               ),
               Expanded(
@@ -25,18 +49,21 @@ class ForecastItemWidget extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(
-                          Icons.arrow_downward,
-                          color: Colors.blue,
+                        SvgPicture.asset(
+                          WeatherIcons.MIN_TEMP,
+                          height: 24,
                         ),
                         Text(model.temp_min.toString() + ' °C')
                       ],
                     ),
+                    SizedBox(
+                      height: 4,
+                    ),
                     Row(
                       children: [
-                        Icon(
-                          Icons.arrow_upward,
-                          color: Colors.red,
+                        SvgPicture.asset(
+                          WeatherIcons.MAX_TEMP,
+                          height: 24,
                         ),
                         Text(model.temp_max.toString() + ' °C')
                       ],
@@ -44,7 +71,16 @@ class ForecastItemWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              Text(model.dateTimeStr)
+              Expanded(
+                flex: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(model.dateTimeDay, style: TextStyle(color: Colors.grey, fontSize: 14),),
+                    Text(model.dateTimeHour, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+                  ],
+                ),
+              )
             ],
           ),
         ),

@@ -12,10 +12,45 @@ class WeatherModel {
   final String description;
   final String icon;
 
-  String get dateTimeStr {
+  String get dateTimeHour {
     var dt = DateTime.fromMillisecondsSinceEpoch(this.dateTimeLong * 1000);
-    var dtFormat = DateFormat("yyyy-MM-dd HH:mm").format(dt);
+    var dtFormat = DateFormat("HH:mm").format(dt);
     return dtFormat;
+  }
+
+  String get dateTimeDay {
+    var dt = DateTime.fromMillisecondsSinceEpoch(this.dateTimeLong * 1000);
+    var nowDt = DateTime.now();
+    var weekDay = dt.weekday;
+    var weekDayName = '';
+    switch (weekDay) {
+      case 1:
+        weekDayName = "Mon";
+        break;
+      case 2:
+        weekDayName = "Tue";
+        break;
+      case 3:
+        weekDayName = "Wed";
+        break;
+      case 4:
+        weekDayName = "Thur";
+        break;
+      case 5:
+        weekDayName = "Fri";
+        break;
+      case 6:
+        weekDayName = "Sat";
+        break;
+      case 7:
+        weekDayName = "Sun";
+        break;
+
+      default:
+    }
+    if (nowDt.weekday == dt.weekday) weekDayName = "Today";
+    if ((dt.weekday - nowDt.weekday) == 1) weekDayName = "Tommorow";
+    return weekDayName;
   }
 
   String get iconPath {
