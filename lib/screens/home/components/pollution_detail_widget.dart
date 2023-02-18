@@ -21,13 +21,6 @@ class PollutionDetailWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            'Air Quality',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          ),
-          SizedBox(
-            height: 12,
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -46,7 +39,6 @@ class PollutionDetailWidget extends StatelessWidget {
                 value: controller.pollutionModel.value.no2,
                 unit: "ml/G",
               ),
-              
             ],
           ),
           SizedBox(

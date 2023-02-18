@@ -9,7 +9,7 @@ import 'package:my_weather_app/data/models/weather_model.dart';
 import 'package:my_weather_app/routes/app_pages.dart';
 
 class AppController extends GetxController {
-  RxString city = "New York".obs;
+  RxString city = "Kashan".obs;
   Rx<WeatherModel> currentWeatherModel = WeatherModel.init().obs;
   Rx<ForecastModel> forecastWeatherModel = ForecastModel.init().obs;
   Rx<PollutionModel> pollutionModel = PollutionModel.init().obs;
