@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                               Spacer(),
                               Text(
-                                controller.textController.text,
+                                controller.city.value,
                                 style: TextStyle(
                                     fontSize: 28, fontWeight: FontWeight.bold),
                               ),

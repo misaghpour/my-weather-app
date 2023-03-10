@@ -49,11 +49,18 @@ class MyLocationsScreen extends StatelessWidget {
                 ],
               ),
               controller.isLoading.value
-                  ? Expanded(child: Center(child: SpinKitDancingSquare(color: Colors.blue,)))
+                  ? Expanded(
+                      child: Center(
+                          child: SpinKitDancingSquare(
+                      color: Colors.blue,
+                    )))
                   : controller.errorMsg.value.isNotEmpty
                       ? Container(
-                        padding: EdgeInsets.all(16),
-                          child: Text(controller.errorMsg.value, style: TextStyle(fontSize: 16, color: Colors.red),),
+                          padding: EdgeInsets.all(16),
+                          child: Text(
+                            controller.errorMsg.value,
+                            style: TextStyle(fontSize: 16, color: Colors.red),
+                          ),
                         )
                       : SingleChildScrollView(
                           child: Column(
@@ -61,34 +68,26 @@ class MyLocationsScreen extends StatelessWidget {
                               SizedBox(
                                 height: 8,
                               ),
-                              for (GeoModel city in controller.cities)
-                                InkWell(
-                                  onTap: () {
-                                    // todo:
-                                    controller.setAsDefaultCity(
-                                        city: city.name);
-                                  },
-                                  child: Container(
-                                    width: double.infinity,
-                                    child: Column(
+                              controller.searchText.value.isEmpty
+                                  ? Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          city.name,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 18),
-                                        ),
-                                        Text(
-                                          city.country,
-                                          style: TextStyle(color: Colors.grey),
-                                        ),
-                                        Divider()
+                                        for (GeoModel city
+                                            in controller.savedCities)
+                                          CityItemWidget(
+                                              controller: controller,
+                                              city: city),
+                                      ],
+                                    )
+                                  : Column(
+                                      children: [
+                                        for (GeoModel city in controller.cities)
+                                          CityItemWidget(
+                                              controller: controller,
+                                              city: city)
                                       ],
                                     ),
-                                  ),
-                                )
                             ],
                           ),
                         )
@@ -96,6 +95,69 @@ class MyLocationsScreen extends StatelessWidget {
           ),
         ),
       )),
+    );
+  }
+}
+
+class CityItemWidget extends StatelessWidget {
+  const CityItemWidget({
+    super.key,
+    required this.controller,
+    required this.city,
+  });
+
+  final AppController controller;
+  final GeoModel city;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        controller.setAsDefaultCity(city: city);
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      city.name,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: controller.isCurrentCity(city).value
+                              ? Colors.blue
+                              : Colors.black),
+                    ),
+                    Text(
+                      city.country,
+                      style: TextStyle(color: controller.isCurrentCity(city).value
+                              ? Colors.blue.withOpacity(0.5)
+                              : Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+              InkWell(
+                  onTap: () {
+                    controller.saveCity(city);
+                  },
+                  child: Icon(
+                    controller.isSaved(city).value
+                        ? Icons.favorite
+                        : Icons.favorite_outline,
+                    color: Colors.red,
+                  ))
+            ],
+          ),
+          Divider()
+        ],
+      ),
     );
   }
 }

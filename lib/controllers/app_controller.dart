@@ -14,7 +14,25 @@ class AppController extends GetxController {
   Rx<WeatherModel> currentWeatherModel = WeatherModel.init().obs;
   Rx<ForecastModel> forecastWeatherModel = ForecastModel.init().obs;
   Rx<PollutionModel> pollutionModel = PollutionModel.init().obs;
-  List<GeoModel> cities = <GeoModel>[];
+  RxList<GeoModel> cities = <GeoModel>[].obs;
+  RxList<GeoModel> savedCities = <GeoModel>[].obs;
+  Rx<GeoModel> currentCity = GeoModel.init().obs;
+
+  RxBool isSaved(GeoModel model) {
+    var result = false;
+    for (int i = 0; i < savedCities.length; i++) {
+      if (model.lat == savedCities[i].lat && model.lon == savedCities[i].lon)
+        result = true;
+    }
+    return result.obs;
+  }
+
+  RxBool isCurrentCity(GeoModel model) {
+    var result = false;
+    if (model.lat == currentCity.value.lat &&
+        model.lon == currentCity.value.lon) result = true;
+    return result.obs;
+  }
 
   final _debouncer = Debouncer(milliseconds: 500);
 
@@ -31,6 +49,8 @@ class AppController extends GetxController {
   final APIController apiController = Get.find();
   final textController = TextEditingController();
 
+  RxString searchText = "".obs;
+
   @override
   void onInit() async {
     super.onInit();
@@ -44,10 +64,6 @@ class AppController extends GetxController {
   _fetchCurrentWeather() async {
     currentWeatherModel.value =
         await apiController.fetchCurrentCity(city: city.value);
-  }
-
-  goToMoreInfoScreen() {
-    // todo:
   }
 
   goToAirQualityScreen() {
@@ -74,17 +90,29 @@ class AppController extends GetxController {
     await _fetchPollutionData();
   }
 
-  setAsDefaultCity({required String city}) {
-    textController.text = city;
+  setAsDefaultCity({required GeoModel city}) {
+    // textController.text = city.name;
+    currentCity.value = city;
     reload();
   }
 
   searchCity() async {
+    searchText.value = textController.text;
     _debouncer.run(() async {
       if (textController.text.isNotEmpty) {
-        this.city.value = textController.text;
-        cities = await apiController.searchCities(city: city.value);
+        cities.value =
+            await apiController.searchCities(city: textController.text);
       }
     });
+  }
+
+  saveCity(GeoModel model) {
+    if (isSaved(model).value) {
+      savedCities.remove(model);
+    } else {
+      savedCities.add(model);
+    }
+    savedCities.refresh();
+    cities.refresh();
   }
 }
